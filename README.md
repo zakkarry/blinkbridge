@@ -1,6 +1,8 @@
 # blinkbridge
 
-blinkbridge is a tool for creating an RTSP stream from a Blink camera using [FFmpeg](https://ffmpeg.org/) and [MediaMTX](https://github.com/bluenviron/mediamtx). Blink cameras are battery operated and don't have native RTSP support, so this tool uses the [BlinkPy](https://github.com/fronzbot/blinkpy) Python library to download clips every time motion is detected and then creates an RTSP stream from them. Due to the slow polling rate of BlinkPy, there will be a delay of up to 30 seconds between when a motion is detected and when the RTSP stream updates (can be changed at risk of the Blink server banning you).
+blinkbridge is a tool for creating an RTSP stream from a Blink camera using [FFmpeg](https://ffmpeg.org/) and [MediaMTX](https://github.com/bluenviron/mediamtx). Blink cameras are battery operated and don't have native RTSP support, so this tool uses the [BlinkPy](https://github.com/fronzbot/blinkpy) Python library to download clips every time motion is detected and then creates an RTSP stream from them. 
+
+Due to the slow polling rate of BlinkPy, there will be a **delay of up to ~30 seconds** between when a motion is detected and when the RTSP stream updates (can be changed at risk of the Blink server banning you).
 
 Once the RTSP streams are available, you can use them in any RTSP application, such as [Frigate NVR](https://github.com/blakeblackshear/frigate) (e.g. for better person detection) or [Scrypted](https://github.com/koush/scrypted) (e.g. for Homekit support).
 
@@ -23,6 +25,7 @@ Once the RTSP streams are available, you can use them in any RTSP application, s
 
 - [ ] Better error handling
 - [ ] Cleanup code
+- [ ] Support FFmpeg hardware acceleration (e.g. QSV)
 - [ ] Process cameras in parallel and reduce latency
 - [ ] Add ONVIF server with motion events
 

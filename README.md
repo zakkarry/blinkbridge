@@ -1,0 +1,28 @@
+# blinkbridge
+
+blinkbridge is a tool for creating an RTSP stream from a Blink camera using [FFmpeg](https://ffmpeg.org/) and [MediaMTX](https://github.com/bluenviron/mediamtx). Blink cameras are battery operated and don't have native RTSP support, so this tool uses the [BlinkPy](https://github.com/fronzbot/blinkpy) Python library to download clips every time motion is detected and then creates an RTSP stream from them. Due to the slow polling rate of BlinkPy, there will be a delay of up to 30 seconds between when a motion is detected and when the RTSP stream updates (can be changed at risk of the Blink server banning you).
+
+Once the RTSP streams are available, you can use them in any RTSP application, such as [Frigate NVR](https://github.com/blakeblackshear/frigate) (e.g. for better person detection) or [Scrypted](https://github.com/koush/scrypted) (e.g. for Homekit support).
+
+# How it works
+
+1. blinkbridge downloads the latest clip for each enabled camera from the Blink server
+2. FFmpeg extracts the last frame from each clip and creates a short still video (~0.5s) from it 
+3. The still video is published on a loop to MediaMTX (using [FFMpeg's concat demuxer](https://trac.ffmpeg.org/wiki/Concatenate#demuxer))
+4. When motion is detected, the new clip is downloaded and published
+5. A still video from the last frame of the new clip is published on a loop
+
+# Usage
+
+1. Download `compose.yaml` from this repo and modify accordingly
+2. Download `config/config.json`, save to `./config/` and modify accordingly (be sure to enter your Blink login creditials)
+3. Run `docker compose run blinkbridge` and enter your Blink verification code when prompted (this only has to be done once and will be saved in `config/.cred.json`). Exit with CTRL+c
+4. Run `docker compose up` to start the service. The RTSP URLs will be printed to the console.
+
+# TODO
+
+- [ ] Better error handling
+- [ ] Cleanup code
+- [ ] Process cameras in parallel and reduce latency
+- [ ] Add ONVIF server with motion events
+

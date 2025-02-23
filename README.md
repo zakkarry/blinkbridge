@@ -31,3 +31,6 @@ Once the RTSP streams are available, you can use them in applications such as [F
 - [ ] Process cameras in parallel and reduce latency
 - [ ] Add ONVIF server with motion events
 
+# Related projects
+
+* https://github.com/kaffetorsk/arlo-streamer
